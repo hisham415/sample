@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Factorial Calculator</title>
+    <link rel="stylesheet" href="./test.css">
+</head>
+<body>
+    <h1>Factorial Calculator</h1>
+    
+    <form id="factorialForm">
+        <label for="number">Enter a non-negative integer:</label>
+        <input type="number" id="number" min="0" required>
+        <button type="submit">Calculate Factorial</button>
+    </form>
+
+    <p id="factorialResult"></p>
+
+    <h1>Maximum Value Finder</h1>
+
+    <form id="maxValueForm">
+        <label for="numbers">Enter numbers separated by commas:</label>
+        <input type="text" id="numbers" required>
+        <button type="submit">Find Maximum Value</button>
+    </form>
+
+    <p id="maxValueResult"></p>
+
+    <script>
+        function factorial(n) {
+            if (n === 0 || n === 1) {
+                return 1;
+            } else {
+                return n * factorial(n - 1);
+            }
+        }
+
+        function findMaxValue(numbers) {
+            if (numbers.length === 0) {
+                return null;
+            }
+            let max = numbers[0];
+            for (let i = 1; i < numbers.length; i++) {
+                if (numbers[i] > max) {
+                    max = numbers[i];
+                }
+            }
+            return max;
+        }
+
+        const factorialForm = document.getElementById("factorialForm");
+        const factorialResultElement = document.getElementById("factorialResult");
+
+        factorialForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const numberInput = document.getElementById("number");
+            const number = parseInt(numberInput.value, 10);
+
+            if (isNaN(number) || number < 0) {
+                factorialResultElement.textContent = "Please enter a non-negative integer.";
+            } else {
+                const result = factorial(number);
+                factorialResultElement.textContent = `${number}! = ${result}`;
+            }
+        });
+
+        const maxValueForm = document.getElementById("maxValueForm");
+        const maxValueResultElement = document.getElementById("maxValueResult");
+
+        maxValueForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const numbersInput = document.getElementById("numbers");
+            const numbersArray = numbersInput.value.split(",").map(Number);
+
+            if (numbersArray.some(isNaN)) {
+                maxValueResultElement.textContent = "Please enter valid numbers separated by commas.";
+            } else {
+                const max = findMaxValue(numbersArray);
+                maxValueResultElement.textContent = `Maximum value: ${max}`;
+            }
+        });
+    </script>
+</body>
+</html>
